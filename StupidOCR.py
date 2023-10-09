@@ -50,7 +50,7 @@ async def Common_VerificationCode(item: Model_Common_VerificationCode):
     ip = socket.gethostbyname(hostname)
     ocr = ddddocr.DdddOcr(show_ad=False)
     res = ocr.classification(base64.b64decode(item.ImageBase64))
-    return {"result":res,"BiliBili":"https://space.bilibili.com/37887820","supports":"http://"+ip+":6688/support"}
+    return {"result":res}
 
 
 
@@ -83,7 +83,7 @@ async def Common_VerificationCode(item: Model_Arithmetic_VerificationCode):
     if '*' in res:
         result = int(res.split('*')[0]) * int(res.split('*')[1][:-1])
 
-    return {"result":result,"BiliBili":"https://space.bilibili.com/37887820","supports":"http://"+ip+":6688/support"}
+    return {"result":result}
 
 
 
@@ -102,7 +102,7 @@ async def Common_VerificationCode(item: Model_Move_Slider):
     hostname = socket.gethostname()
     ip = socket.gethostbyname(hostname)
 
-    return{"result":result,"BiliBili":"https://space.bilibili.com/37887820","supports":"http://"+ip+":6688/support"}
+    return{"result":result}
 
 
 
@@ -122,7 +122,7 @@ async def Comparison_Slider(item: Model_Comparison_Slider):
     hostname = socket.gethostname()
     ip = socket.gethostbyname(hostname)
 
-    return{"result":result,"BiliBili":"https://space.bilibili.com/37887820","supports":"http://"+ip+":6688/support"}
+    return{"result":result}
 
 
 
@@ -146,8 +146,8 @@ async def Text_Choose_Click(item: Model_Text_Choose_Click):
     result = {}
     for box in res:
         x1, y1, x2, y2 = box
-        result[ocr1.classification(img.crop(box))] = [x1 + ((y1 - x1) // 2), x2 + ((y2 - x2) // 2)]  # 文字位置
-    return{"result":result,"BiliBili":"https://space.bilibili.com/37887820","supports":"http://"+ip+":6688/support"}
+        result[ocr1.classification(img.crop(box))] = [ x1+(x2-x1)//2,y1+(y2-y1)//2]  # 文字位置
+    return{"result":result}
 
 
 
@@ -167,7 +167,7 @@ async def ICO_Choose_Click(item: Model_ICO_Choose_Click):
     result = ocr.slide_match(base64.b64decode(item.ICO_ChooseClick_ImageBase64), base64.b64decode(item.Background_ImageBase64),simple_target=True)
     hostname = socket.gethostname()
     ip = socket.gethostbyname(hostname)
-    return {"result":result,"BiliBili":"https://space.bilibili.com/37887820","supports":"http://"+ip+":6688/support"}
+    return {"result":result}
 
 
 
@@ -185,7 +185,7 @@ async def Target_Detection(item:Model_Target_Detection):
     result = ocr.detection(base64.b64decode(item.ImageBase64))
     hostname = socket.gethostname()
     ip = socket.gethostbyname(hostname)
-    return {"result":result,"BiliBili":"https://space.bilibili.com/37887820","supports":"http://"+ip+":6688/support"}
+    return {"result":result}
 
 
 
@@ -233,4 +233,3 @@ if __name__ == '__main__':
     webbrowser.open("http://"+ip+":6688/support")
     webbrowser.open("http://localhost:6688/docs")
     uvicorn.run(app, port=6688, host="0.0.0.0")
-
